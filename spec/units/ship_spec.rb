@@ -10,9 +10,26 @@ describe Battleship::Ship do
     
     lambda {
       Battleship::Ship.new("Shrimp Boat", 1)
-    }.should raise_error(InvalidShipLengthException)
+    }.should raise_error(Battleship::InvalidShipLengthException)
     lambda {
       Battleship::Ship.new("Alien mothership", 6)
-    }.should raise_error(InvalidShipLengthException)
+    }.should raise_error(Battleship::InvalidShipLengthException)
+  end
+  
+  context "when assigning hits" do
+    let(:destroyer) { Battleship::Ship.new("Destroyer", 2) }
+    
+    it "should know how many times its been hit" do
+      expect {
+        destroyer.hit!
+      }.to change(destroyer, :hit_count).by(1)
+    end
+    
+    it "should know when its sunk" do
+      destroyer.hit!
+      expect {
+        destroyer.hit!
+      }.to change(destroyer, :sunk?).from(false).to(true)
+    end
   end
 end

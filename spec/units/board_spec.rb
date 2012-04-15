@@ -79,8 +79,11 @@ describe Battleship::Board do
     end
     
     it "should not be able to overlap pieces" do
-      board.place_ship(carrier, 'A2', 'east')
+      board.place_ship(carrier, 'B2', 'east')
       lambda { board.place_ship(destroyer, 'E1', 'south') }.should raise_error(Battleship::InvalidShipPositionException)
+      
+      # Make sure no part of the Destroyer was placed
+      board.row(0).should == ([nil] * 10)
     end
     
     it "should be able to set an entire board" do
@@ -89,9 +92,9 @@ describe Battleship::Board do
       battleship  = Battleship::Ship.new("Battleship", 4)
       
       board.place_ship(destroyer,   'A1', 'east')
-      board.place_ship(battleship,  'E1', 'south')
-      board.place_ship(cruiser,     'F1', 'south')
       board.place_ship(submarine,   'G6', 'east')
+      board.place_ship(cruiser,     'F1', 'south')
+      board.place_ship(battleship,  'E1', 'south')
       board.place_ship(carrier,     'J3', 'south')
       
       board.rows.should == [
@@ -111,17 +114,49 @@ describe Battleship::Board do
   end
   
   context "when targeting" do
+    let(:destroyer)   { Battleship::Ship.new("Destroyer", 2) }
+    let(:submarine)   { Battleship::Ship.new("Submarine", 3) }
+    let(:cruiser)     { Battleship::Ship.new("Cruiser", 3) }
+    let(:battleship)  { Battleship::Ship.new("Battleship", 4) }
+    let(:carrier)     { Battleship::Ship.new("Aircraft Carrier", 5) }
+    
+    let(:board) {
+      new_board = Battleship::Board.new
+      new_board.place_ship(destroyer,   'A1', 'east')
+      new_board.place_ship(battleship,  'E1', 'south')
+      new_board.place_ship(cruiser,     'F1', 'south')
+      new_board.place_ship(submarine,   'G6', 'east')
+      new_board.place_ship(carrier,     'J3', 'south')
+      
+      new_board
+    }
+    
     it "should track shots" do
       expect {
-        board.target("A1")
+        board.record_shot("A1") { :hit }
       }.to change(board.shots, :size).by(1)
     end
     
     it "should be not able target the same coordinate twice" do
-      board.target("A1")
+      board.record_shot("A1") do
+        :hit
+      end
       expect {
-        lambda { board.target("A1") }.should raise_error(Battleship::DuplicateMoveException)
+        lambda { board.record_shot("A1") { :hit } }.should raise_error(Battleship::DuplicateMoveException)
       }.to_not change(board.shots, :size)
+    end
+    
+    it "should return false when missed" do
+      board.target('C1') { :miss }.should be_false
+    end
+    
+    it "should return true when hit" do
+      board.target('A1') { :hit }.should be_true
+    end
+    
+    it "should return a ship name when a ship is sunk" do
+      board.target('A1') { :hit }.should be_true
+      board.target('B1') { 'Destroyer' }.should == 'Destroyer'
     end
   end
 end
