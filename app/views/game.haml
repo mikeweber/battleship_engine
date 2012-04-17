@@ -1,0 +1,66 @@
+#game_message
+#game_board_container
+  #game_board_controls
+    %form{ :action => "/make_move", :class => 'socket_form' }
+      %label{ :for  => 'name' } Name
+      %input{ :type => 'text', :name => 'name' }
+      %br
+      - Battleship::Board.new.ships.each do |ship|
+        %label{ :for => "ships[#{ship.short_name}][col]" }= ship.name
+        %select{ :name => "ships[#{ship.short_name}][col]" }
+          %option
+          - ('A'..'J').each do |x|
+            %option{ :value => x }= x
+        %select{ :name => "ships[#{ship.short_name}][row]" }
+          %option
+          - (1..10).each do |x|
+            %option{ :value => x }= x
+        %select{ :name => "ships[#{ship.short_name}][direction]" }
+          %option
+          - [:south, :east].each do |x|
+            %option{ :value => x }= x
+        %br
+      
+      <input type="submit" value="Register" />
+  %table#ship_board
+    %thead
+      %tr
+        %td
+        %td A
+        %td B
+        %td C
+        %td D
+        %td E
+        %td F
+        %td G
+        %td H
+        %td I
+        %td J
+    %tbody
+      = haml :_board_row
+  
+  %table#shot_board
+    %thead
+      %tr
+        %td
+        %td A
+        %td B
+        %td C
+        %td D
+        %td E
+        %td F
+        %td G
+        %td H
+        %td I
+        %td J
+    %tbody
+      = haml :_board_row
+
+/ :javascript
+/   var initial_board = [
+/     ['D', ['A1', 'east']],
+/     ['B', ['E1', 'south']],
+/     ['C', ['F1', 'south']],
+/     ['S', ['G6', 'east']],
+/     ['A', ['J3', 'south']]
+/   ]

@@ -29,7 +29,7 @@ module Battleship
     end
     
     def remaining_ships
-      self.ship_board.unsunk_ships
+      self.ship_board.unsunk_ships.compact
     end
     
     def won?

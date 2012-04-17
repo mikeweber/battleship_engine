@@ -91,11 +91,9 @@ describe Battleship::Board do
       cruiser     = Battleship::Ship.new("Cruiser", 3)
       battleship  = Battleship::Ship.new("Battleship", 4)
       
-      board.place_ship(destroyer,   'A1', 'east')
-      board.place_ship(submarine,   'G6', 'east')
-      board.place_ship(cruiser,     'F1', 'south')
-      board.place_ship(battleship,  'E1', 'south')
-      board.place_ship(carrier,     'J3', 'south')
+      board.ships.zip([['A1', 'east'], ['G6', 'east'], ['F1', 'south'], ['E1', 'south'], ['J3', 'south']]).each do |ship, pos_and_dir|
+        board.place_ship(ship, *pos_and_dir)
+      end
       
       board.rows.should == [
         #     A     |     B     |     C     |     D     |     E     |     F     |     G     |     H     |     I     |     J     |

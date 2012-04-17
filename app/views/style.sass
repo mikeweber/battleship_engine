@@ -1,0 +1,39 @@
+#game_message
+  &.error
+    color: red
+
+#shot_board
+  tr td.coordinate
+    background: #DDD
+    -webkit-transition: background 0.25s
+  
+  &.my_turn tr td.coordinate
+    cursor: pointer
+    
+    &:hover
+      background: #CCC
+
+#ship_board, #shot_board
+  float: left
+  margin-right: 100px
+  border-collapse: collapse
+  
+  tr td
+    border: 1px solid black
+    width: 40px
+    height: 40px
+    
+    &.has_ship
+      background: #AAA
+    
+    .peg
+      width: 36px
+      height: 36px
+      border-radius: 18px
+      margin: auto
+      
+      &.hit
+        background: #F44
+      
+      &.miss
+        background: #FFF

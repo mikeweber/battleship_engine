@@ -7,8 +7,17 @@ module Battleship
     def initialize(*args)
       @rows  = []
       10.times { @rows << (col = Array.new(10)) }
-      @ships = []
       @shots = []
+    end
+    
+    def ships
+      @ships ||= [
+        Battleship::Ship.new("Destroyer", 2),
+        Battleship::Ship.new("Submarine", 3),
+        Battleship::Ship.new("Cruiser", 3),
+        Battleship::Ship.new("Battleship", 4),
+        Battleship::Ship.new("Aircraft carrier", 5)
+      ]
     end
     
     def row(i)
@@ -54,14 +63,14 @@ module Battleship
     end
     
     def unsunk_ships
-      @ships = []
+      ships = []
       @rows.each do |column|
         column.each do |cell|
-          @ships << cell if cell.is_a?(Ship) && !cell.sunk?
+          ships << cell if cell.is_a?(Ship) && !(ships.include?(cell) || cell.sunk?)
         end
       end
       
-      return @ships
+      return ships
     end
     
     private

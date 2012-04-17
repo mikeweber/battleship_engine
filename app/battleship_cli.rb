@@ -9,31 +9,31 @@ def setup_board(player)
   end
 end
 
-def setup_board(player)
-  positions = if player.name == "M"
-    [
-      ['A1', 'east'],
-      ['G6', 'east'],
-      ['F1', 'south'],
-      ['E1', 'south'],
-      ['J3', 'south']
-    ]
-  else
-    [
-      ['C1', 'east'],
-      ['G6', 'east'],
-      ['F3', 'south'],
-      ['E3', 'south'],
-      ['J5', 'south']
-    ]
-  end
-  
-  ships.zip(positions).each do |ship, pos_dir|
-    pos, dir = pos_dir
-    puts "Placing #{ship.name} at #{pos} facing #{dir}"
-    player.place_ship(ship, pos, dir) unless pos_dir.nil?
-  end
-end
+# def setup_board(player)
+#   positions = if player.name == "M"
+#     [
+#       ['A1', 'east'],
+#       ['G6', 'east'],
+#       ['F1', 'south'],
+#       ['E1', 'south'],
+#       ['J3', 'south']
+#     ]
+#   else
+#     [
+#       ['C1', 'east'],
+#       ['G6', 'east'],
+#       ['F3', 'south'],
+#       ['E3', 'south'],
+#       ['J5', 'south']
+#     ]
+#   end
+#   
+#   ships.zip(positions).each do |ship, pos_dir|
+#     pos, dir = pos_dir
+#     puts "Placing #{ship.name} at #{pos} facing #{dir}"
+#     player.place_ship(ship, pos, dir) unless pos_dir.nil?
+#   end
+# end
 
 def place_ship(player, ship)
   puts "Where do you want to place your #{ship.name}, which is #{ship.length} spaces long? (specify letter/number coordinates e.g. J4)"
