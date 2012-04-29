@@ -1,11 +1,22 @@
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "battleship_engine/version"
+
 Gem::Specification.new do |s|
-  s.name        = 'Battleship Engine'
-  s.version     = '0.0.1'
-  s.date        = '2012-04-29'
-  s.summary     = "Battleship"
-  s.description = "The rules for Battleship"
+  s.name        = "battleship_engine"
+  s.version     = BattleshipEngine::VERSION
   s.authors     = ["Mike Weber"]
-  s.email       = 'mike@weberapps.com'
-  s.files       = ["lib/battleship_engine.rb"]
-  s.homepage    = 'http://github.com/mikeweber/battleship_engine'
+  s.email       = ["mike@weberapps.com"]
+  s.homepage    = ""
+  s.summary     = %q{Battleship}
+  s.description = %q{Game rules for the game Battleship}
+  
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- spec/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.require_paths = ["lib"]
+
+  # specify any dependencies here; for example:
+  # s.add_development_dependency "rspec"
+  # s.add_runtime_dependency "rest-client"
 end
